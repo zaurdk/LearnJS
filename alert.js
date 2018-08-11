@@ -1,3 +1,4 @@
-﻿if ("0") {
-    alert( 'Привет' );
-  }
+﻿while (true) {
+    var number = prompt('Введите число', '');
+    if (number > 100) break;
+};
