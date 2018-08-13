@@ -16,4 +16,4 @@ function bullsAndCows(num) {
 
 bullsAndCows(tryNumber);
 
-alert('Коров:' + cows + 'Быков:' + bulls);
+alert('Коров: ' + cows + ' ' + 'Быков: ' + bulls);
