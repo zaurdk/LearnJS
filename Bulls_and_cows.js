@@ -8,7 +8,7 @@ function bullsAndCows(num) {
     for(var i = 0; i < 4; i++) {
         if(num[i] == hideNumber[i]) {
             bulls += 1;
-        } else if (str.indexOf(number[i]) >= 0) { 
+        } else if (hideNumber.indexOf(num[i]) >= 0) { 
             cows += 1;
         };
     };
