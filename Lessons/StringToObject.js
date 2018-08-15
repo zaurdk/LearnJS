@@ -39,7 +39,7 @@ function styleToObject(str) {
     
         obj[keyWord] = value;
     
-        pos = pos + valueStop; 
+        pos = pos + 1; 
 
     }
 
