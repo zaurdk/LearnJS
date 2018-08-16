@@ -3,47 +3,47 @@
 let a = {
   name: 'John',
   order: {
-    price: 20
+    price: 30,
   },
-  age: 10
+  age: 10,
 };
 
 let b = {
   name: 'John',
   order: {
-    price: 20,
+    price: 30,
   },
-  age: 10
-};
-
-function keysScore(obj1, obj2) {
-    var count = 0;
-    var count1 = 0;
-
-    for (var key in obj1) if (a.hasOwnProperty(key)) count++;
-    for (var key1 in obj2) if (a.hasOwnProperty(key1)) count1++;
-
-    return (count === count1);
+  age: 10,
 };
 
 
-function deepEqual(obj1, obj2) {
-    if (keysScore(obj1, obj2) === false) {
-        return false;
-    } else {    
-        for (var propName in obj1, obj2) {
-            if (typeof (obj1[propName]) === 'object') {
-                let result = (deepEqual(obj1[propName], obj2[propName]));
-                return result;
-             } else {
-                (obj1[propName] === obj2[propName]) ? true : false;
-             }
-        }
+function deepEqual(a, b) {
+  if (a === b) {
+    return true;
+  }
+
+  if (typeof b !== 'object' 
+    || typeof a !== 'object' 
+    || a === null
+    || b === null
+    ) {
+    return false;
+  }
+
+  if (Object.keys(a).length !== Object.keys(b).length) {
+    return false;
+  }
+
+  for (let prop in a) {
+    if (b.hasOwnProperty(prop)) {
+      if (!deepEqual(a[prop], b[prop])) return false;
+    } else {
+      return false;
     }
+  }  
+  
+  return true;
 }
 
-
-
-console.log(keysScore(a, b));
 
 console.log(deepEqual(a, b));
