@@ -29,12 +29,12 @@ function styleToObject(str) {
     while (true) {
          var keyWordStart = str.indexOf('\n', pos);
          var keyWordStop = str.indexOf(':', keyWordStart);
-         var valueStart = keyWordStop + 1;
+         var valueStart = keyWordStop + 2;
          var valueStop = str.indexOf(';', valueStart);
 
         if (keyWordStart == -1) break;
 
-        var keyWord = str.slice(keyWordStart, keyWordStop);
+        var keyWord = str.slice(keyWordStart + 1, keyWordStop);
         var value = str.slice(valueStart, valueStop);
     
         obj[keyWord] = value;
