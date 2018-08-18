@@ -11,8 +11,8 @@ function filterRange(arr, a, b) {
     return fArr;
 }
 
-var filtered = filterRange(arr, 3, 5);
-console.log(filtered);
+;
+console.log(filterRange(arr, 3, 5));
 console.log(arr);
 // теперь filtered = [5, 4, 3]
 // arr не изменился

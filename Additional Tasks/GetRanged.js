@@ -14,16 +14,16 @@ function getRange(elementScore, firstElementValue, elementStep) {
     var arr = [];
 
     if (firstElementValue === undefined && elementStep === undefined) {
-        for (i = 1; i <= elementScore; i++) {
+        for (i = 0; i < elementScore; i++) {
             arr.push(i); 
         }
     } else if (elementStep == undefined) {
-        for (i = 1; i <= elementScore; i++) {
+        for (i = 0; i < elementScore; i++) {
             arr.push(firstElementValue);
             firstElementValue++
         }
     } else {
-        for (i = 1; i <= elementScore; i++) {
+        for (i = 0; i < elementScore; i++) {
             arr.push(firstElementValue);
             firstElementValue += elementStep; 
         }
