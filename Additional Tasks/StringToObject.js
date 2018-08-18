@@ -23,22 +23,24 @@ let style = `
 `;
 //замена дефиса на Кэмэл Кейс
 function camelCase(word) {
-  if (word.indexOf('-') > 1){
-    let index = word.indexOf('-', 1);
-    let ccWord = word.slice(0, (index)) + word[index + 1].toUpperCase() + word.slice((index + 2));
-    return ccWord;
-  } else return word;
+  let parts = word.split('-')
+  return parts.reduce(function (result, part) {
+    return result += part[0].toUpperCase() + part.slice(1);
+  });
 }
 
 function styleToObject(str) {
   let obj = {};
   str = str.trim(); 
-  let arr = str.split('\n');
+  let arr = str.split(';').filter(Boolean);
+
+  console.log(arr);
 
   for (i = 0; i < arr.length; i++) {
-    let prop = arr[i].split(':');
+    let prop = arr[i].split(': ');
+    console.log(prop);
     let propKey = camelCase(prop[0].trim());
-    let propValue = camelCase(prop[1].slice(0, prop[1].length - 1).trim()); //дополнительно удаляем точку с запятой в конце
+    let propValue = (prop[1].trim()); 
     
     obj[propKey] = propValue;  
   } 
