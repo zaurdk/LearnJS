@@ -4,7 +4,7 @@ function find(arr, value) {
 
     if (arr.indexOf(value) >= 0) return console.log(arr.indexOf(value));
 
-    return console.log(-1);
+    return console.log(arr.indexOf(value));
 }
 
 
