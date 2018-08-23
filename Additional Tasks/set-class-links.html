@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<title>Практические задания</title>>
+</head>
+
+<body>
+
+<style>
+    .external {
+        background-color: yellow
+        }
+</style>
+              
+<a name="list">список</a>
+    <ul>
+        <li><a href="http://google.com">http://google.com</a></li>
+        <li><a href="/tutorial">/tutorial.html</a></li>
+        <li><a href="local/path">local/path</a></li>
+        <li><a href="ftp://ftp.com/my.zip">ftp://ftp.com/my.zip</a></li>
+        <li><a href="http://nodejs.org">http://nodejs.org</a></li>
+        <li><a href="http://internal.com/test">http://internal.com/test</a></li>
+    </ul>
+
+
+<script>
+
+let aList = document.querySelectorAll('a');
+console.log(aList);
+console.log(aList[1].getAttribute('href').indexOf('http') >= 0);
+
+for (i=0; i<aList.length; i++) {
+    if (!aList[i].hasAttribute('href')) continue;
+    if (aList[i].getAttribute('href').indexOf('http') >= 0 &&
+        aList[i].getAttribute('href').indexOf('http://internal.com/') < 0 )
+        aList[i].setAttribute('class', 'external');
+}
+
+</script>
+
+</body>
+
+</html>
