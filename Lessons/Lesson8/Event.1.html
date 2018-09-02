@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+</head>
+
+<body>
+
+  <input type="button" id="hider" value="Нажмите, чтобы спрятать кнопку" />
+
+ 
+
+  <script>
+    document.getElementById('hider').onclick = function () {this.style.display = "none"};
+    setTimeout(function () {document.getElementById('hider').style.display = ""}, 3000);
+  </script>
+</body>
+
+</html>

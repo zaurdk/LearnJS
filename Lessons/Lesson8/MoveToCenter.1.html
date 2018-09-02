@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+  <style>
+    #field {
+      width: 200px;
+      border: 10px groove black;
+      background-color: #00FF00;
+      position: relative;
+    }
+
+    #ball {
+      position: absolute;
+    }
+  </style>
+</head>
+
+<body>
+
+
+  <div id="field">
+    <img src="https://js.cx/clipart/ball.svg" id="ball"> . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+  </div>
+<script>
+let ball = document.getElementById('ball');
+let field = document.getElementById('field');
+
+field.onclick = function (event) {
+  var fieldCoords = field.getBoundingClientRect();
+  var fieldInnerCoords = {
+    top: fieldCoords.top + field.clientTop,
+    left: fieldCoords.left + field.clientLeft,
+    right: fieldCoords.right + field.clientRight,
+    bottom: fieldCoords.bottom + field.clientBottom
+  };
+
+  var centeredLeft = event.clientX - fieldInnerCoords.left - (ball.naturalWidth / 2)
+  var centeredTop = event.clientY - fieldInnerCoords.top - (ball.naturalHeight / 2)
+
+
+
+/*   if (centeredLeft > fieldInnerCoords.right + ball.naturalWidth / 2) centeredLeft = fieldInnerCoords.right + ball.naturalWidth / 2;
+  if (centeredLeft < fieldInnerCoords.left - ball.naturalWidth / 2) centeredLeft = fieldInnerCoords.left - ball.naturalWidth / 2;
+  if (centeredTop < fieldInnerCoords.top - ball.naturalWidth / 2) centeredTop = fieldInnerCoords.top - ball.naturalWidth / 2;
+  if (centeredTop > fieldInnerCoords.bottom + ball.naturalWidth / 2) centeredTop = fieldInnerCoords.bottom + ball.naturalWidth / 2; */
+
+  ball.style.left = centeredLeft + 'px';
+  ball.style.top = centeredTop + 'px';
+}
+
+
+
+</script>
+
+</body>
+
+</html>

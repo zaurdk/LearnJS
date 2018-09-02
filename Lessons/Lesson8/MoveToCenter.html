@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+  <style>
+    #field {
+      width: 200px;
+      border: 10px groove black;
+      background-color: #00FF00;
+      position: relative;
+    }
+
+    #ball {
+      position: absolute;
+    }
+  </style>
+</head>
+
+<body>
+
+
+  <div id="field">
+    <img src="https://js.cx/clipart/ball.svg" id="ball"> . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+  </div>
+<script>
+let ball = document.getElementById('ball');
+let field = document.getElementById('field');
+
+let cenWidth = (field.clientWidth / 2) - (ball.naturalWidth / 2)
+let cenHeight = (field.clientHeight / 2) - (ball.naturalHeight / 2)
+
+ball.style.top = cenHeight + 'px';
+ball.style.left = cenWidth + 'px';
+
+console.log(field.clientWidth);
+console.log(ball.naturalWidth);
+console.log(field.clientHeight);
+console.log(ball.naturalHeight);
+console.log(cenWidth);
+console.log(cenHeight);
+</script>
+
+</body>
+
+</html>
