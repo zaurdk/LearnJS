@@ -19,12 +19,13 @@ function turn(event) {
     if (event.currentTarget.className) return;
     
     event.currentTarget.classList.add('cross');
-    var tds = document.getElementsByTagName('td');
-/*     for (var i = 0; i < tds.length; i++) {
+    var tds = Array.from(field.getElementsByTagName('td'));
+    for (var i = 0; i < tds.length; i++) {
       if (!tds[i].hasAttribute('class')) emptyCells.push(tds[i]);
-    } */
-    console.log(tds);
-    emptyCells[aiTurn(emptyCells)].classList.add('zero');
+    }
+    var randomEmpty = Math.round(Math.random()*(emptyCells.length - 1));
+
+    emptyCells[randomEmpty].classList.add('zero');
 
     emptyCells = [];
     
@@ -33,9 +34,7 @@ function turn(event) {
 
 console.log(emptyCells)
 
-function aiTurn(arr) {
-  return Math.round(Math.random()*(arr[arr.length - 1]));
-}
+
   
 //проверка победы
 function win() {
