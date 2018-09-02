@@ -32,8 +32,6 @@ function turn(event) {
     winner = event.currentTarget.className;
 }
 
-console.log(emptyCells)
-
 
   
 //проверка победы
@@ -41,7 +39,17 @@ function win() {
   if (winCheck()) {
       alert(winner + ' Wins!');
       clear();
-    } 
+    }
+  var tds = Array.from(field.getElementsByTagName('td'));
+  var fTds = [];
+  for (i=0; i<tds.length; i++) {
+    if (tds[i].hasAttribute('class')) fTds.push(tds[i]);
+  }
+  if (winCheck() === false && fTds.length > 8) {
+    alert(' Ничья!');
+    clear();
+  }
+
 }
 
 //проверка выигрышных комбинаций
