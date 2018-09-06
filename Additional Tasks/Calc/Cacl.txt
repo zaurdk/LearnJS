@@ -1,0 +1,55 @@
+ввод цифры #1 (5)
+fValue: undef
+sValue: undef
+F: undef
+class: undef
+display: 5
+result: undef
+
+ввод действия #1
+fValue: 5
+sValue: undef
+F: действие #1
+class: inProgress
+display: 
+result: undef
+
+ввод цифры #2 (2)
+fValue: 5
+sValue: undef
+F: действие #1
+class: inProgress
+display: 2
+result: undef
+
+ввод действия #2
+fValue: 5
+sValue: 2
+F: действие #2
+class: result
+display: 7
+result: 7
+
+ввод действия #3
+fValue: 7
+sValue: 2
+F: действие #3
+class: inProgress
+display: 
+result: 7
+
+ввод цифры #3 (3)
+fValue: 7
+sValue: 2
+F: действие #3
+class: inProgress
+display: 3
+result: 7
+
+ввод действия #4
+fValue: 7
+sValue: 3
+F: действие #4
+class: result
+display: 10
+result: 10

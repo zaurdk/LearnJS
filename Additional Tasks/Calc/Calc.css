@@ -1,30 +1,66 @@
 table {
     border: 4px solid black;
-    padding: 2px; 
+    padding: 4px; 
     background-color: azure;
+    border-radius: 10px;
     margin: auto;
   }
 
   td {
     border: 4px solid black;
-    padding: 2px;
     text-align: center;
     vertical-align: middle;
-    width: 100px;
-    height: 100px;
+    border-radius: 10px;
+    width: 60px;
+    height: 60px;
   }
 
-  .button {
-    width: 90px;
-    height: 90px;
-    border: 2px groove black;
+  #display {
+    text-align: right;
+    vertical-align: middle;
+    font-size: 300%;
+    white-space: nowrap; 
+    overflow: hidden; 
+    font-weight: bold;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    display: inline-block;
+    width: 350px;
+    background:  azure;
+  }
+
+
+  #main-screen {
+    height: 100px;
+    vertical-align: middle;
+  }
+  #result {
+    height: 205px;
+  }
+
+  #zero {
+    width: 130px; 
+  }
+
+  input[type=button] {
+    width: 60px;
+    height: 60px;
     border-radius: 10px;
     text-align: center;
     vertical-align: middle;
-    background-color: rgb(134, 130, 130);
+    background: linear-gradient(90deg, rgb(233, 228, 224), rgb(162, 177, 184));
     color: black;
     font-size: 150%;
     font-weight: bold;
     cursor: pointer;
   }
+
+  input:hover {
+    text-shadow: 1px 1px 2px black, 0 0 1em gray;
+   } 
+
+
+
+
+
+
 

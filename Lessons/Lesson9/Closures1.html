@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<title>Практические задания</title>>
+</head>
+
+<body>
+
+<script>
+
+ 
+function makeBuffer() {
+    sValue = '';
+
+    function buffer(value) {
+        if (arguments.length == '0') {
+            return sValue;
+        }
+        sValue += value;
+    }
+
+    buffer.clear = function() {
+        sValue = '';
+    }
+
+    return buffer;
+};
+
+
+var buffer = makeBuffer();
+
+buffer("Тест");
+buffer(" тебя не съест ");
+alert( buffer() ); // Тест тебя не съест
+
+buffer.clear();
+
+alert( buffer() ); // ""
+
+</script>
+
+</body>
+
+</html>

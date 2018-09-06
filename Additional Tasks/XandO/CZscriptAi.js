@@ -41,12 +41,9 @@ function turn(event) {
   
 //проверка победы
 function win() {
-  if (winCheck()) {
+  if (rowCheck()) {
     (winner === 'cross') ? alert('Крестики выиграли!') : alert('Нолики выиграли!');
     clear();
-    button.style.display = '';
-    field.removeEventListener('click', turn);
-    field.removeEventListener('click', win);
   } 
 
   var tds = Array.from(field.getElementsByTagName('td'));
@@ -54,18 +51,15 @@ function win() {
   for (i=0; i<tds.length; i++) {
     if (tds[i].hasAttribute('class')) fTds.push(tds[i]);
   }
-  if (winCheck() === false && fTds.length > 8) {
+  if (rowCheck() === false && fTds.length > 8) {
     alert(' Ничья!');
     clear();
-    button.style.display = '';
-    field.removeEventListener('click', turn);
-    field.removeEventListener('click', win);
   }
 
 }
 
 //проверка выигрышных комбинаций
-function winCheck() {
+function rowCheck() {
   var mas = [];
   for (var i = 0; i < 3; i++) {
     mas.push(rows[i].cells[0].className);
@@ -148,4 +142,26 @@ function clear() {
   Array.from(field.getElementsByTagName('td')).forEach((item) => {
     item.removeAttribute('class');
   });
+  field.removeEventListener('click', turn);
+  field.removeEventListener('click', win);
+  button.style.display = '';
 }
+
+
+
+/* Array.prototype.multiget = function(){
+  var args = Array.apply(null, arguments);
+  var result = [];
+  for(var i = 0; i < args.length; i++){
+      result.push(this[args[i]]);
+  }       
+
+  return result;
+}
+
+Потом вызывать так:
+
+var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+console.log(arr.multiget(5,2,0)); // выведет массив [6, 3, 1]
+console.log(arr.multiget(5,2,0).join(",")); // выведет строку "6,3,1" */
