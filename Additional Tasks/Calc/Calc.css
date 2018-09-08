@@ -1,67 +1,71 @@
 table {
-    border: 4px solid black;
-    padding: 4px; 
-    background-color: azure;
-    border-radius: 10px;
-    margin: auto;
-  }
+  border: 4px solid black;
+  padding: 4px; 
+  background-color: azure;
+  border-radius: 10px;
+  margin: auto;
+}
 
 td {
-    border: 4px solid black;
-    text-align: center;
-    vertical-align: middle;
-    border-radius: 10px;
-    width: 60px;
-    height: 60px;
-  }
+  border: 4px solid black;
+  text-align: center;
+  vertical-align: middle;
+  border-radius: 10px;
+  width: 60px;
+  height: 60px;
+}
 
 #display {
-    text-align: right;
-    vertical-align: middle;
-    font-size: 300%;
-    white-space: nowrap; 
-    overflow: hidden; 
-    font-weight: bold;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    display: inline-block;
-    width: 350px;
-    background:  azure;
-  }
+  text-align: right;
+  vertical-align: middle;
+  font-size: 300%;
+  white-space: nowrap; 
+  overflow: hidden; 
+  font-weight: bold;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  display: inline-block;
+  width: 350px;
+  background:  azure;
+}
 
 
 #main-screen {
-    height: 100px;
-    vertical-align: middle;
-  }
+  height: 100px;
+  vertical-align: middle;
+}
 #result {
-    height: 205px;
-  }
+  height: 205px;
+}
 
 #zero {
-    width: 130px; 
-  }
+  width: 130px; 
+}
 
 input[type=button] {
-    width: 60px;
-    height: 60px;
-    border-radius: 10px;
-    text-align: center;
-    vertical-align: middle;
-    background: linear-gradient(90deg, rgb(233, 228, 224), rgb(162, 177, 184));
-    color: black;
-    font-size: 150%;
-    font-weight: bold;
-    cursor: pointer;
-  }
-
-input:hover {
-    text-shadow: 1px 1px 2px black, 0 0 1em gray;
-   } 
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
+  text-align: center;
+  vertical-align: middle;
+  background: linear-gradient(90deg, rgb(233, 228, 224), rgb(162, 177, 184));
+  color: black;
+  font-size: 150%;
+  font-weight: bold;
+  cursor: pointer;
+}
 
 td:hover {
-  background-color: aqua;
+  background-color: Silver;
 }
 
-#main-screen:hover {
+input:hover {
+  text-shadow: 2px 4px 3px rgba(0,0,0,0.3);
+}
+
+.main-screen:hover {
   background-color: azure;
 }
+
+
+
+

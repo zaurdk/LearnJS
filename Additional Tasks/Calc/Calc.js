@@ -1,5 +1,110 @@
 'use strict'
 
+//переменные
+var fValue;
+var sValue;
+var calcFunction;
+var result;
+var memory;
+var display = document.getElementById('display');
+
+//вешаем событие
+document.getElementById('table').onclick = onClick;
+
+
+//выбор действия для функции вычисления
+function addAction (elment) {
+    switch (elment.value) {
+      case '+': return doPlus;
+      case '-': return doMinus;
+      case '/': return doDivision;
+      case '*': return doMulti;
+      case '^': return doPow;
+      case '%': return doPercent;
+      default: return;
+    } 
+  }
+
+//операции с памятью
+function memoryOps (event) {
+  
+  switch (event.target.value) {
+    case 'MC':
+        memory = 0;
+        break;
+    case 'MR':
+        display.innerHTML = memory;
+        break;
+    case 'MS':
+        memory = +display.innerHTML;
+        break;
+    case 'M+':
+        memory += +display.innerHTML; 
+        break;
+    case 'M-':
+        memory -= +display.innerHTML;
+        break;
+    
+  }
+}
+
+//функция вычисления
+function calcIt (event) {
+    if (display.className === 'inProgress') {
+        sValue = +display.innerHTML;
+        result = calcFunction(fValue)(sValue);
+        calcFunction = addAction(event.target);
+        display.innerHTML = result;
+        display.classList.remove('inProgress');
+        display.classList.add('result');
+        fValue = result;
+        return;
+    } 
+
+    if (display.className === 'result') {
+        fValue = +display.innerHTML;
+        display.innerHTML = '';
+        calcFunction = addAction(event.target);
+        display.classList.remove('result');
+        display.classList.add('inProgress');
+        return;
+    } 
+
+    fValue = +display.innerHTML;
+    calcFunction = addAction(event.target);
+    display.innerHTML = '';
+    display.classList.add('inProgress');
+
+
+}
+//событие делегирования
+    function onClick (event) {
+      if (event.target.tagName != 'INPUT') return;
+      
+      let buttonClass = event.target.className;
+      
+      switch (buttonClass)  {
+        case 'number': addNum(event);
+        break;
+        case 'action': calcIt(event);
+        break;
+        case 'memory': memoryOps(event);
+        break;
+        case 'result': doResult();
+        break;
+        case 'sqrt': doSqrt();
+        break;
+        case 'del': delPrevious();
+        break;
+        case 'mRev': pmReverse();
+        break;
+        case 'CE': clearAll();
+        break;
+        default: return;
+      }
+    }
+
+
 //функции вычислений
 function doPlus (a) {
   return function (b) {
@@ -58,10 +163,11 @@ function doSqrt () {
 
 //добавление/удаление минуса
 function pmReverse () {
-    if (display.innerHTML.length === 0) return;
+    let checkVar = display.innerHTML;
+    if (checkVar.length === 0) return;
 
-    if (display.innerHTML.indexOf('-') === 0) {
-        display.innerHTML = display.innerHTML.slice(1);
+    if (checkVar.indexOf('-') === 0) {
+        display.innerHTML = checkVar.slice(1);
         return;
     }
     
@@ -70,8 +176,9 @@ function pmReverse () {
 
 //удаления предыдущего элемента
 function delPrevious () {
-    display.innerHTML = display.innerHTML.slice(0, display.innerHTML.length - 1);
-    if (display.innerHTML.length === 1 && display.innerHTML.indexOf('-') === 0) display.innerHTML = '';
+    let checkVar = display.innerHTML;
+    display.innerHTML = checkVar.slice(0, checkVar.length - 1);
+    if (checkVar.length === 1 && checkVar.indexOf('-') === 0) display.innerHTML = '';
 }
 
 //очистка всего
@@ -85,114 +192,49 @@ function clearAll () {
     display.classList.remove('result');
 }
 
-//переменные
-var fValue;
-var sValue;
-var calcFunction;
-var result;
-var memory;
-
-//переменная экрана
-var display = document.getElementById('display');
-    
 //добавление цифры/точки при нажатии кнопки
 function addNum (event) {
+  let checkVar = display.innerHTML;
+  
     if (display.className === 'result') {
         display.innerHTML = '';
         display.classList.remove('result');
         display.classList.add('inProgress');
     }
    
-    if (event.target.value === '.') {addDot(); return;};
-    if (event.target.value === '0') {addZero(); return;};
+    if (event.target.value === '.') {
+      addDot(); 
+      return;
+    }
+    if (event.target.value === '0') {
+      addZero(); 
+      return;
+    }
 
-    if (display.innerHTML.indexOf('0') === 0 && display.innerHTML.length === 1) {
-     display.innerHTML = display.innerHTML.slice(1);
+    if (checkVar.indexOf('0') === 0 && checkVar.length === 1) {
+     display.innerHTML = checkVar.slice(1);
     }
     display.insertAdjacentHTML('beforeEnd', event.target.value);
 }
 //добавление точки с проверками
 function addDot () {
-    if (display.innerHTML.indexOf('.') >= 0) return;
-    if (display.innerHTML === '') {
+    let checkVar = display.innerHTML;
+    if (checkVar.indexOf('.') >= 0) return;
+    if (checkVar === '') {
         display.insertAdjacentHTML('beforeEnd', '0');
         }
     display.insertAdjacentHTML('beforeEnd', '.');
 }
 //добавление нуля с проверками 
 function addZero () {
-    if (display.innerHTML.indexOf('0') === 0 && display.innerHTML.length === 1) return;
-    if (display.innerHTML.indexOf('0') === 0 && display.innerHTML.indexOf('.') < 0) return;
+    let checkVar = display.innerHTML;
+    if (checkVar.indexOf('0') === 0 && checkVar.length === 1) return;
+    if (checkVar.indexOf('0') === 0 && checkVar.indexOf('.') < 0) return;
     display.insertAdjacentHTML('beforeEnd', '0');
-}
-
-//выбор действия для функции вычисления
-function addAction (elment) {
-    if (elment.value === '+') return doPlus;
-    if (elment.value === '-') return doMinus;
-    if (elment.value === '/') return doDivision;
-    if (elment.value === '*') return doMulti;
-    if (elment.value === '^') return doPow;
-    if (elment.value === '%') return doPercent;
-}
-
-//операции с памятью
-function memoryOps (event) {
-    if (event.target.value === 'MC') {
-        memory = 0;
-        return;
-    }
-    if (event.target.value === 'MR') {
-        display.innerHTML = memory;
-        return;}
-    if (event.target.value === 'MS') {
-        memory = +display.innerHTML;
-        return;
-    }
-    if (event.target.value === 'M+') {
-        memory += +display.innerHTML; 
-        return;
-    }
-    if (event.target.value === 'M-') {
-        memory -= +display.innerHTML;
-        return;
-    }
-}
-
-//функция вычисления
-function calcIt (event) {
-    if (display.className === 'inProgress') {
-        sValue = +display.innerHTML;
-        result = calcFunction(fValue)(sValue);
-        calcFunction = addAction(event.target);
-        display.innerHTML = result;
-        display.classList.remove('inProgress');
-        display.classList.add('result');
-        fValue = result;
-        return;
-    } 
-
-    if (display.className === 'result') {
-        fValue = +display.innerHTML;
-        display.innerHTML = '';
-        calcFunction = addAction(event.target);
-        display.classList.remove('result');
-        display.classList.add('inProgress');
-        return;
-    } 
-
-    fValue = +display.innerHTML;
-    calcFunction = addAction(event.target);
-    display.innerHTML = '';
-    display.classList.add('inProgress');
+  }
 
 
-}
-
-
-
-//бинды
-//цифры
+/*
 Array.from(document.getElementsByClassName('number')).forEach(function(item) {
     item.onclick = addNum;
 });
@@ -205,11 +247,11 @@ Array.from(document.getElementsByClassName('memory')).forEach(function(item) {
     item.onclick = memoryOps;
 });
 
-//можно не выносить отдельно, но тогда надо добавлять проверку в основную функцию
+
 document.getElementById('result').onclick = doResult; 
-//прямая операция с значением с экрана, не по шаблону
 document.getElementById('sqrt').onclick = doSqrt; 
 document.getElementById('del').onclick = delPrevious;
 document.getElementById('mRev').onclick = pmReverse;
 document.getElementById('CE').onclick = clearAll;
+*/
 

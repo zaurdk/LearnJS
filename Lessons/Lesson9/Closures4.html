@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<title>Практические задания</title>>
+</head>
+
+<body>
+
+<script>
+
+var calculator = {
+fValue: '',
+sValue: '',
+read: function(){
+/*   this.fValue = prompt('Введите первое значение', '');
+  this.sValue = prompt('Введите первое значение', ''); */
+} ,
+sum: function(){
+  return +this.fValue + +this.sValue;
+} ,
+mul: function(){
+  return +this.fValue * +this.sValue;
+} ,
+}
+
+calculator.sValue = 4;
+calculator.fValue = 5;
+
+console.log(+calculator.fValue * +calculator.sValue);
+
+//calculator.read();
+alert( calculator.sum() );
+alert( calculator.mul() );
+
+</script>
+
+</body>
+
+</html>

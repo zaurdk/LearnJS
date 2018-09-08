@@ -1,0 +1,135 @@
+html, body {
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+  }
+
+table {
+  border: 2px solid black;
+  padding: 2px; 
+  background-color: white;
+  border-radius: 5px;
+  width: 100%;
+  height: 100%;
+}
+
+td {
+  border: 2px solid black;
+  border-radius: 5px;
+  vertical-align: top;
+  align-content: center;
+}
+
+textarea {
+  resize: none;
+}
+
+.menu-button {
+  border: 2px solid black;
+  width: 100px;
+  height: 100px;
+  border-radius: 5px;
+  text-align: center;
+  background: white;
+  color: black;
+  font-size: 100%;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.closeNote {
+  height: 20px;
+  width: 20px;
+  border: 2px solid black;
+  border-radius: 10px;
+  text-align: center;
+  color: black;
+  position: relative;
+  font-size: 70%;
+  font-weight: bold;
+  cursor: pointer;
+  padding-left: 5px;
+  float: right;
+}
+
+.pinNote {
+  height: 20px;
+  width: 20px;
+  border: 2px solid black;
+  border-radius: 10px;
+  text-align: center;
+  color: black;
+  position: relative;
+  font-size: 70%;
+  font-weight: bold;
+  cursor: pointer;
+  padding-left: 3px;
+  float: right;
+}
+
+.pinNote.pinned {
+  background-color: lightgray;
+}
+
+
+.timerNote {
+  height: 20px;
+  width: 20px;
+  border: 2px solid black;
+  border-radius: 10px;
+  text-align: center;
+  color: black;
+  position: relative;
+  font-size: 70%;
+  font-weight: bold;
+  cursor: pointer;
+  padding-left: 5px;
+  float: right;
+}
+
+.lockNote {
+  height: 20px;
+  width: 20px;
+  border: 2px solid black;
+  border-radius: 10px;
+  text-align: center;
+  color: black;
+  position: relative;
+  font-size: 70%;
+  font-weight: bold;
+  cursor: pointer;
+  padding-left: 5px;
+  float: right;
+}
+
+.lockNote.lock {
+  background-color: lightgray;
+}
+
+
+input:hover {
+  text-shadow: 2px 4px 3px rgba(0,0,0,0.3);
+  background-color: lightgrey;
+}
+
+.menu {
+  width: 100px;
+  height: 100%;
+}
+
+.main-screen {
+  height: 100%;
+}
+
+.note {
+  border: 2px solid black;
+  padding: 2px; 
+  background-color: white;
+  border-radius: 5px;
+  width: 200px;
+  height: 200px;
+  position: absolute;
+}
+
+
+
