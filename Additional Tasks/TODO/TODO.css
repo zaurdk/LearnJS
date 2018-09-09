@@ -22,6 +22,16 @@ td {
 
 textarea {
   resize: none;
+  outline: none;
+  -moz-appearance: none;
+  border: 0px;
+  padding-top: 10px;
+  font-size: 110%;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: bold;
+  font-style: italic;
+  overflow: hidden;
+
 }
 
 .menu-button {
@@ -35,6 +45,7 @@ textarea {
   font-size: 100%;
   font-weight: bold;
   cursor: pointer;
+  margin-bottom: 2px;
 }
 
 .closeNote {
@@ -68,7 +79,7 @@ textarea {
 }
 
 .pinNote.pinned {
-  background-color: lightgray;
+  background-color: grey;
 }
 
 
@@ -87,6 +98,10 @@ textarea {
   float: right;
 }
 
+.timerNote.timerOn {
+  background-color: grey;
+}
+
 .lockNote {
   height: 20px;
   width: 20px;
@@ -103,9 +118,28 @@ textarea {
 }
 
 .lockNote.lock {
-  background-color: lightgray;
+  background-color: gray;
 }
 
+.keyDate {
+  border: 0px;
+  margin: 1px;
+  width: 14px;
+  text-align: center;
+}
+
+.keyDate.year {
+  width: 27px;
+}
+
+.keyDate.month {
+  width: 24px;
+}
+
+.dataString {
+  width: 150px;
+  font-weight: bold;
+}
 
 input:hover {
   text-shadow: 2px 4px 3px rgba(0,0,0,0.3);
@@ -123,13 +157,21 @@ input:hover {
 
 .note {
   border: 2px solid black;
-  padding: 2px; 
   background-color: white;
   border-radius: 5px;
-  width: 200px;
-  height: 200px;
+  width: 250px;
+  height: 300px;
   position: absolute;
+  box-shadow: 5px 3px 4px 2px rgb(150, 154, 156);
+  padding-left: 15px;
+  padding-bottom: 10px;
+  padding-right: 5px;
+  padding-top: 5px;
 }
 
+div[name='TODO!'] {
+  border: 5px red;
+  box-shadow: 5px 5px 5px 5px red;
+}
 
 

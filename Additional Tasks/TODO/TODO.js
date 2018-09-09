@@ -17,6 +17,7 @@ function createNote () {
         createPinButton(newDiv);
         createLockButton(newDiv);
         createTimerButton(newDiv);
+        createRemindTime(newDiv);
         createText(newDiv);
         idCounter++;
         document.getElementById('field').appendChild(newDiv);
@@ -79,8 +80,12 @@ function createLockButton (element) {
     button.value = 'L';
     button.title = 'Запретить редактирование';
     button.onclick = function () {
-        button.parentElement.classList.toggle('locked');
         button.classList.toggle('lock');
+        if (button.classList.contains('lock')) {
+            button.parentElement.querySelector('textarea').setAttribute('readonly', '');
+        } else { 
+            button.parentElement.querySelector('textarea').removeAttribute('readonly');
+        }        
     }
     element.appendChild(button);
 }
@@ -91,6 +96,20 @@ function createTimerButton (element) {
     button.type = 'button';
     button.value = 'T';
     button.title = 'Установить время напоминания';
+    button.onclick = function () {
+        let dateFields = button.parentElement.querySelectorAll('.keyDate');
+        button.classList.toggle('tOn');
+        button.parentElement.classList.toggle('timerOn');
+        if (button.classList.contains('tOn')) {
+            for (let i = 0; i < dateFields.length; i++) {
+                dateFields[i].setAttribute('readonly', '');
+            }
+        } else { 
+            for (let i = 0; i < dateFields.length; i++) {
+                dateFields[i].removeAttribute('readonly');
+            }
+        }        
+    }
     element.appendChild(button);
 }
 //создаем текстовое поле заметки
@@ -98,10 +117,47 @@ function createText (element) {
     var text = document.createElement('textarea');
     text.classList.add('textarea');
     text.placeholder = 'Закрепите заметку, чтобы написать нужное...';
-    text.rows = 10;
-    text.cols = 22;
+    text.rows = 11;
+    text.cols = 20;
+    text.maxLength = 200;
     element.appendChild(text); 
 }
+
+function createRemindTime (element) {
+    var date = new Date();
+    var stringDiv = document.createElement('div');
+        stringDiv.classList.add('dataString');
+    var dayField = document.createElement('input');
+        dayField.classList.add('keyDate');
+        dayField.value = date.getDate();
+        stringDiv.appendChild(dayField);
+    var monthField = document.createElement('input');
+        monthField.classList.add('keyDate');
+        monthField.classList.add('month');
+        monthField.value = getMonthName(date);
+        stringDiv.appendChild(monthField);
+    var yearField = document.createElement('input');
+        yearField.classList.add('keyDate');
+        yearField.classList.add('year');
+        yearField.value = date.getFullYear();
+        stringDiv.appendChild(yearField);
+        stringDiv.insertAdjacentText('beforeEnd', ' — ');
+    var hourField = document.createElement('input');
+        hourField.classList.add('keyDate');
+        hourField.value = date.getHours();
+        stringDiv.appendChild(hourField);
+        stringDiv.insertAdjacentText('beforeEnd', ':');
+    var minuteField = document.createElement('input');
+        minuteField.classList.add('keyDate');
+        minuteField.value = date.getMinutes();
+        stringDiv.appendChild(minuteField);
+
+    
+    if (!element) {
+        return stringDiv;
+    } else element.appendChild(stringDiv);
+}
+
 //функция перемещения заметки
 function attachMover (elemId) {
 
@@ -131,6 +187,7 @@ function attachMover (elemId) {
         note.onmouseup = function() {
             document.onmousemove = null;
             note.onmouseup = null;
+            document.getElementById('field').appendChild(note);
         }
 
         note.ondragstart = function() {
@@ -148,3 +205,46 @@ function attachMover (elemId) {
     
 }
 
+//получаем трехбуквенное значение месяца
+function getMonthName(date) {
+    let m = date.getMonth();
+    let name;
+    switch (m) {
+        case 0 : name = 'янв'; break;
+        case 1: name = 'фев'; break;
+        case 2: name = 'мар'; break;
+        case 3: name = 'апр'; break;
+        case 4: name = 'май'; break;
+        case 5: name = 'июн'; break;
+        case 6: name = 'июл'; break;
+        case 7: name = 'авг'; break;
+        case 8: name = 'сен'; break;
+        case 9: name = 'окт'; break;
+        case 10: name = 'ноя'; break;
+        case 11: name = 'дек'; break;
+        default: break;
+    }
+    return name;
+}
+
+/* function doOnTimer () {
+    var notesToRemind = document.querySelectorAll('.timerOn');
+    console.log(notesToRemind);
+    for (let i = 0; i < notesToRemind.length; i++) {
+        console.log(notesToRemind[i]);
+        console.log(checkTimerEquial(notesToRemind[i]))
+    }
+} 
+
+//сравнение текущего времени с временем заметки
+function checkTimerEquial(element) {
+    let presentTime = createRemindTime();
+    let chekedTime = element.querySelector('.dataString');
+    if (chekedTime !== null) return (presentTime.innerHTML === chekedTime.innerHTML);
+}
+
+var timerId = setTimeout(function tick() {
+    doOnTimer();
+    timerId = setTimeout(tick, 10000);
+  }, 10000);
+ */
