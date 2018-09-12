@@ -23,15 +23,16 @@ td {
 textarea {
   resize: none;
   outline: none;
+  width: 240px;
+  height: 260px;
   -moz-appearance: none;
   border: 0px;
   padding-top: 10px;
   font-size: 110%;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-weight: bold;
-  font-style: italic;
   overflow: hidden;
-
+  white-space: normal;
 }
 
 .menu-button {
@@ -42,10 +43,11 @@ textarea {
   text-align: center;
   background: white;
   color: black;
-  font-size: 100%;
+  font-size: 90%;
   font-weight: bold;
   cursor: pointer;
   margin-bottom: 2px;
+  word-wrap: break-word;
 }
 
 .closeNote {
@@ -98,7 +100,7 @@ textarea {
   float: right;
 }
 
-.timerNote.timerOn {
+.timerNote.tOn {
   background-color: grey;
 }
 
@@ -121,24 +123,12 @@ textarea {
   background-color: gray;
 }
 
-.keyDate {
-  border: 0px;
-  margin: 1px;
-  width: 14px;
-  text-align: center;
-}
-
-.keyDate.year {
-  width: 27px;
-}
-
-.keyDate.month {
-  width: 24px;
-}
-
 .dataString {
-  width: 150px;
+  width: 140px;
   font-weight: bold;
+  border: 0px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  padding-top: 2px;
 }
 
 input:hover {
@@ -169,7 +159,7 @@ input:hover {
   padding-top: 5px;
 }
 
-div[name='TODO!'] {
+div.alert {
   border: 5px red;
   box-shadow: 5px 5px 5px 5px red;
 }

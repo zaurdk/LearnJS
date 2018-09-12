@@ -1,28 +1,30 @@
 'use strict';
-document.getElementById('noteCreate').addEventListener('click', createNote());
-document.getElementById('noteDelete').addEventListener('click', deleteAllNotes);
+
+let idCounter = 0;
+document.querySelector('tbody').addEventListener('click', doOnClick);
+
+//проверка установленных напоминаний
+var timerId = setTimeout(function tick() {
+    doOnTimer();
+    timerId = setTimeout(tick, 10000);
+  }, 10000);
 
 
 //создаем заметку
 function createNote () {
-    let idCounter = 0;
-    
-    return function createDiv() {
-        let newDiv = document.createElement('div');
-        let divId = '#' + idCounter;
-        newDiv.classList.add('note');
-        newDiv.setAttribute('id', `#${idCounter}`);
-        getStartCoords(newDiv);
-        createCloseButton(newDiv);
-        createPinButton(newDiv);
-        createLockButton(newDiv);
-        createTimerButton(newDiv);
-        createRemindTime(newDiv);
-        createText(newDiv);
-        idCounter++;
-        document.getElementById('field').appendChild(newDiv);
-        attachMover(divId);        
-    }   
+    let newDiv = document.createElement('div');
+    newDiv.classList.add('note');
+    newDiv.setAttribute('id', `${idCounter}`);
+    getStartCoords(newDiv);
+    createCloseButton(newDiv);
+    createPinButton(newDiv);
+    createLockButton(newDiv);
+    createTimerButton(newDiv);
+    createRemindTime(newDiv, createTime());
+    createText(newDiv);    
+    document.getElementById('field').appendChild(newDiv);
+    attachMover(idCounter);
+    idCounter++;
 }
 
 //случайные координаты для создания заметки
@@ -47,6 +49,21 @@ function deleteAllNotes () {
         notes[0].remove();
     } 
 }
+
+//сортировать сперва последние
+function sortNotesLast () {
+    Array.from(document.querySelectorAll('.note')).forEach((elem) =>{elem.style.zIndex = elem.id});
+}
+//сортировать сперва ранние
+function sortNotesFirst () {
+    let notes = Array.from(document.querySelectorAll('.note'));
+    let indexes = notes.map((elem)=>{return elem.id});
+    indexes.reverse();
+    for (var i = 0; i < notes.length; i++) {
+        notes[i].style.zIndex = indexes[i];
+    }
+}
+
 //создаем кнопку удаления
 function createCloseButton (element) {
     var button = document.createElement('input');
@@ -54,11 +71,14 @@ function createCloseButton (element) {
     button.type = 'button';
     button.value = 'X';
     button.title = 'Удалить заметку';
-    button.onclick = function () {
-        button.parentElement.remove();
-    }
     element.appendChild(button);
 }
+
+//функция удаления
+function closeNote (element) {
+    element.parentElement.remove();
+}
+
 //создаем кнопку закрепления заметки
 function createPinButton (element) {
     var button = document.createElement('input');
@@ -66,12 +86,15 @@ function createPinButton (element) {
     button.type = 'button';
     button.value = '<';
     button.title = 'Закрепить';
-    button.onclick = function () {
-        button.parentElement.classList.toggle('pinned');
-        button.classList.toggle('pinned');
-    }
     element.appendChild(button);
 }
+
+//функция закрепления заметки
+function pinNote (element) {
+    element.parentElement.classList.toggle('pinned');
+    element.classList.toggle('pinned');
+}
+
 //создаем кнопку фиксации текста
 function createLockButton (element) {
     var button = document.createElement('input');
@@ -79,16 +102,20 @@ function createLockButton (element) {
     button.type = 'button';
     button.value = 'L';
     button.title = 'Запретить редактирование';
-    button.onclick = function () {
-        button.classList.toggle('lock');
-        if (button.classList.contains('lock')) {
-            button.parentElement.querySelector('textarea').setAttribute('readonly', '');
-        } else { 
-            button.parentElement.querySelector('textarea').removeAttribute('readonly');
-        }        
-    }
     element.appendChild(button);
 }
+
+//функция фиксации текста
+function lockNote (element) {
+    element.classList.toggle('lock');
+    if (element.classList.contains('lock')) {
+        element.parentElement.querySelector('textarea').setAttribute('readonly', '');
+    } else { 
+        element.parentElement.querySelector('textarea').removeAttribute('readonly');
+    }        
+}
+
+
 //создаем кнопку напоминания
 function createTimerButton (element) {
     var button = document.createElement('input');
@@ -96,75 +123,66 @@ function createTimerButton (element) {
     button.type = 'button';
     button.value = 'T';
     button.title = 'Установить время напоминания';
-    button.onclick = function () {
-        let dateFields = button.parentElement.querySelectorAll('.keyDate');
-        button.classList.toggle('tOn');
-        button.parentElement.classList.toggle('timerOn');
-        if (button.classList.contains('tOn')) {
-            for (let i = 0; i < dateFields.length; i++) {
-                dateFields[i].setAttribute('readonly', '');
-            }
-        } else { 
-            for (let i = 0; i < dateFields.length; i++) {
-                dateFields[i].removeAttribute('readonly');
-            }
-        }        
-    }
     element.appendChild(button);
 }
+
+//функция включения/выключения напоминания
+function noteTimerToggle (element) {
+    let dateField = element.parentElement.querySelector('.dataString');
+    element.classList.toggle('tOn');
+    element.parentElement.classList.toggle('timerOn');
+    if (element.classList.contains('tOn')) {
+        dateField.setAttribute('readonly', '');
+    } else {
+        dateField.removeAttribute('readonly');
+    }
+} 
+
+
 //создаем текстовое поле заметки
 function createText (element) {
     var text = document.createElement('textarea');
     text.classList.add('textarea');
-    text.placeholder = 'Закрепите заметку, чтобы написать нужное...';
+    text.placeholder = 'Ваш текст...';
     text.rows = 11;
     text.cols = 20;
     text.maxLength = 200;
     element.appendChild(text); 
 }
 
-function createRemindTime (element) {
+//создаем текущую дату/время
+function createTime () {    
     var date = new Date();
-    var stringDiv = document.createElement('div');
-        stringDiv.classList.add('dataString');
-    var dayField = document.createElement('input');
-        dayField.classList.add('keyDate');
-        dayField.value = date.getDate();
-        stringDiv.appendChild(dayField);
-    var monthField = document.createElement('input');
-        monthField.classList.add('keyDate');
-        monthField.classList.add('month');
-        monthField.value = getMonthName(date);
-        stringDiv.appendChild(monthField);
-    var yearField = document.createElement('input');
-        yearField.classList.add('keyDate');
-        yearField.classList.add('year');
-        yearField.value = date.getFullYear();
-        stringDiv.appendChild(yearField);
-        stringDiv.insertAdjacentText('beforeEnd', ' — ');
-    var hourField = document.createElement('input');
-        hourField.classList.add('keyDate');
-        hourField.value = date.getHours();
-        stringDiv.appendChild(hourField);
-        stringDiv.insertAdjacentText('beforeEnd', ':');
-    var minuteField = document.createElement('input');
-        minuteField.classList.add('keyDate');
-        minuteField.value = date.getMinutes();
-        stringDiv.appendChild(minuteField);
+    var options = {
+        day: 'numeric',
+        year: 'numeric',
+        month: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+    };
+    return date.toLocaleString("ru", options);
+}
 
-    
+//создаем поле ввода даты
+function createRemindTime (element, date) {
+    var fullDate = date;
+    var dateField = document.createElement('input');
+    dateField.classList.add('dataString');
+    dateField.placeholder = '00.00.0000, 00:00';
+    dateField.value = fullDate;
     if (!element) {
-        return stringDiv;
-    } else element.appendChild(stringDiv);
+        return dateField;
+    } else element.appendChild(dateField);
 }
 
 //функция перемещения заметки
 function attachMover (elemId) {
 
     var note = document.getElementById(`${elemId}`);
-    note.onmousedown = function (e) {
-        if (note.classList.contains('pinned')) return;
 
+    note.onmousedown = function (e) {
+        if (!e.target.classList.contains('note')) return;
+        if (note.classList.contains('pinned')) return;    
         var coords = getCoords(note);
         var shiftX = e.pageX - coords.left;
         var shiftY = e.pageY - coords.top;
@@ -205,46 +223,35 @@ function attachMover (elemId) {
     
 }
 
-//получаем трехбуквенное значение месяца
-function getMonthName(date) {
-    let m = date.getMonth();
-    let name;
-    switch (m) {
-        case 0 : name = 'янв'; break;
-        case 1: name = 'фев'; break;
-        case 2: name = 'мар'; break;
-        case 3: name = 'апр'; break;
-        case 4: name = 'май'; break;
-        case 5: name = 'июн'; break;
-        case 6: name = 'июл'; break;
-        case 7: name = 'авг'; break;
-        case 8: name = 'сен'; break;
-        case 9: name = 'окт'; break;
-        case 10: name = 'ноя'; break;
-        case 11: name = 'дек'; break;
-        default: break;
-    }
-    return name;
-}
 
-/* function doOnTimer () {
+//сработка таймера
+function doOnTimer () {
     var notesToRemind = document.querySelectorAll('.timerOn');
-    console.log(notesToRemind);
     for (let i = 0; i < notesToRemind.length; i++) {
-        console.log(notesToRemind[i]);
-        console.log(checkTimerEquial(notesToRemind[i]))
+        if (checkTimerEquial(notesToRemind[i])) {
+            notesToRemind[i].classList.add('alert');
+        };
     }
 } 
 
 //сравнение текущего времени с временем заметки
 function checkTimerEquial(element) {
-    let presentTime = createRemindTime();
-    let chekedTime = element.querySelector('.dataString');
-    if (chekedTime !== null) return (presentTime.innerHTML === chekedTime.innerHTML);
+    let presentTime = createTime();
+    let chekedTime = element.querySelector('.dataString').value;
+    console.log(chekedTime );
+    if (chekedTime !== null) return (presentTime === chekedTime);
 }
 
-var timerId = setTimeout(function tick() {
-    doOnTimer();
-    timerId = setTimeout(tick, 10000);
-  }, 10000);
- */
+//делегирующая функция
+
+function doOnClick (event) {
+    let element = event.target;
+    if (element.classList.contains('noteCreate')) createNote();
+    if (element.classList.contains('noteDelete')) deleteAllNotes();
+    if (element.classList.contains('noteSortUp'))sortNotesLast();
+    if (element.classList.contains('noteSortDown'))sortNotesFirst();
+    if (element.classList.contains('closeNote')) closeNote(element);
+    if (element.classList.contains('timerNote')) noteTimerToggle(element);
+    if (element.classList.contains('pinNote')) pinNote(element);
+    if (element.classList.contains('lockNote')) lockNote(element);
+}
