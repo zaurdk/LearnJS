@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+</head>
+
+<body>
+
+  <script src="menu.js"></script>
+  <script>
+    function AnimatingMenu (state) {
+        Menu.call(this, arguments);
+        var timer;
+    }
+
+    Menu.STATE_ANIMATED = 2
+
+    AnimatingMenu.prototype = Object.create(Menu.prototype);
+
+    Menu.prototype.open = function() {
+        var self = this;
+        timer = setTimeout(function () {
+            this._state = Menu.STATE_CLOSED;
+        }, 1000);
+    };
+
+    Menu.prototype.close = function() {
+        if (this.timer) this.timer = null;
+        this._state = Menu.STATE_CLOSED;
+    };
+
+    Menu.prototype._stateAsString = function() {
+        switch (this._state) {
+        case Menu.STATE_OPEN:
+            return 'открыто';
+  
+        case Menu.STATE_CLOSED:
+            return 'закрыто';
+
+        case Menu.STATE_ANIMATED:
+            return 'анимация';
+    }
+  };
+
+    var menu = new AnimatingMenu();
+
+    menu.showState(); // закрыто
+
+    menu.open();
+    menu.showState(); // анимация
+
+    setTimeout(function() {
+      menu.showState(); // открыто
+
+      menu.close();
+      menu.showState(); // закрыто (закрытие без анимации)
+    }, 1000);
+  </script>
+
+</body>
+
+</html>

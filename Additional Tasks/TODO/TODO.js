@@ -1,8 +1,15 @@
 'use strict';
 
-let idCounter = 0;
-document.querySelector('tbody').addEventListener('click', doOnClick);
+var idCounter = 0;
+var noteButtonsData = [
+    {class: 'closeNote', value: 'X', title: 'Удалить заметку'},
+    {class: 'pinNote',   value: '<', title: 'Закрепить'},
+    {class: 'lockNote',  value: 'L', title: 'Запретить редактирование'},
+    {class: 'timerNote', value: 'T', title: 'Установить время напоминания'}
+];
 
+document.querySelector('tbody').addEventListener('click', doOnClick);
+//document.querySelector('tbody').addEventListener('onmousedown', attachMover());
 //проверка установленных напоминаний
 var timerId = setTimeout(function tick() {
     doOnTimer();
@@ -14,16 +21,13 @@ var timerId = setTimeout(function tick() {
 function createNote () {
     let newDiv = document.createElement('div');
     newDiv.classList.add('note');
-    newDiv.setAttribute('id', `${idCounter}`);
+    newDiv.setAttribute('data-index', `${idCounter}`);
     getStartCoords(newDiv);
-    createCloseButton(newDiv);
-    createPinButton(newDiv);
-    createLockButton(newDiv);
-    createTimerButton(newDiv);
+    createNoteButtons(newDiv);
     createRemindTime(newDiv, createTime());
     createText(newDiv);    
     document.getElementById('field').appendChild(newDiv);
-    attachMover(idCounter);
+    attachMover(newDiv);
     idCounter++;
 }
 
@@ -38,10 +42,9 @@ function getStartCoords(element) {
     var randPosition = Math.floor(Math.random() * 150);
 
     element.style.top = startX + (randPosition * +coinToss()) + 'px';
-    element.style.left = startY + (randPosition * +coinToss()) + 'px';
-
-    
+    element.style.left = startY + (randPosition * +coinToss()) + 'px';    
 }
+
 //удалить все заметки
 function deleteAllNotes () {
     let notes = document.getElementsByClassName('note');
@@ -52,26 +55,29 @@ function deleteAllNotes () {
 
 //сортировать сперва последние
 function sortNotesLast () {
-    Array.from(document.querySelectorAll('.note')).forEach((elem) =>{elem.style.zIndex = elem.id});
+    Array.from(document.querySelectorAll('.note')).forEach(elem=>{elem.style.zIndex = elem.dataset.index});
 }
 //сортировать сперва ранние
 function sortNotesFirst () {
     let notes = Array.from(document.querySelectorAll('.note'));
-    let indexes = notes.map((elem)=>{return elem.id});
+    let indexes = notes.map(elem=>elem.dataset.index);
     indexes.reverse();
     for (var i = 0; i < notes.length; i++) {
         notes[i].style.zIndex = indexes[i];
     }
 }
 
-//создаем кнопку удаления
-function createCloseButton (element) {
-    var button = document.createElement('input');
-    button.classList.add('closeNote');
-    button.type = 'button';
-    button.value = 'X';
-    button.title = 'Удалить заметку';
-    element.appendChild(button);
+//добавление кнопок заметки
+function createNoteButtons (element) {
+    for (let i = 0; i < noteButtonsData.length; i++) {
+        let button = document.createElement('input');
+        let buttonOptions = noteButtonsData[i];
+        button.type = 'button';
+        button.classList.add(buttonOptions.class);
+        button.value = buttonOptions.value;
+        button.title = buttonOptions.title;
+        element.appendChild(button);
+    }
 }
 
 //функция удаления
@@ -79,30 +85,10 @@ function closeNote (element) {
     element.parentElement.remove();
 }
 
-//создаем кнопку закрепления заметки
-function createPinButton (element) {
-    var button = document.createElement('input');
-    button.classList.add('pinNote');
-    button.type = 'button';
-    button.value = '<';
-    button.title = 'Закрепить';
-    element.appendChild(button);
-}
-
 //функция закрепления заметки
 function pinNote (element) {
     element.parentElement.classList.toggle('pinned');
     element.classList.toggle('pinned');
-}
-
-//создаем кнопку фиксации текста
-function createLockButton (element) {
-    var button = document.createElement('input');
-    button.classList.add('lockNote');
-    button.type = 'button';
-    button.value = 'L';
-    button.title = 'Запретить редактирование';
-    element.appendChild(button);
 }
 
 //функция фиксации текста
@@ -113,17 +99,6 @@ function lockNote (element) {
     } else { 
         element.parentElement.querySelector('textarea').removeAttribute('readonly');
     }        
-}
-
-
-//создаем кнопку напоминания
-function createTimerButton (element) {
-    var button = document.createElement('input');
-    button.classList.add('timerNote');
-    button.type = 'button';
-    button.value = 'T';
-    button.title = 'Установить время напоминания';
-    element.appendChild(button);
 }
 
 //функция включения/выключения напоминания
@@ -137,7 +112,6 @@ function noteTimerToggle (element) {
         dateField.removeAttribute('readonly');
     }
 } 
-
 
 //создаем текстовое поле заметки
 function createText (element) {
@@ -175,12 +149,13 @@ function createRemindTime (element, date) {
     } else element.appendChild(dateField);
 }
 
+
+
 //функция перемещения заметки
-function attachMover (elemId) {
-
-    var note = document.getElementById(`${elemId}`);
-
+ function attachMover (element) {
+    var note = element;    
     note.onmousedown = function (e) {
+        console.log(e);
         if (!e.target.classList.contains('note')) return;
         if (note.classList.contains('pinned')) return;    
         var coords = getCoords(note);
@@ -223,7 +198,6 @@ function attachMover (elemId) {
     
 }
 
-
 //сработка таймера
 function doOnTimer () {
     var notesToRemind = document.querySelectorAll('.timerOn');
@@ -243,7 +217,6 @@ function checkTimerEquial(element) {
 }
 
 //делегирующая функция
-
 function doOnClick (event) {
     let element = event.target;
     if (element.classList.contains('noteCreate')) createNote();

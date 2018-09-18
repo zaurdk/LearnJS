@@ -136,6 +136,11 @@ input:hover {
   background-color: lightgrey;
 }
 
+button:hover {
+  text-shadow: 2px 4px 3px rgba(0,0,0,0.3);
+  background-color: lightgrey;
+}
+
 .menu {
   width: 100px;
   height: 100%;
@@ -143,6 +148,7 @@ input:hover {
 
 .main-screen {
   height: 100%;
+  overflow: hidden;
 }
 
 .note {
